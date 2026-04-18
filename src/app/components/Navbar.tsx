@@ -1,27 +1,19 @@
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Link, useLocation } from 'react-router';
 
 interface NavbarProps {
   cartItemCount?: number;
   onCartClick?: () => void;
+  currentPath?: string;
 }
 
-// Custom hook that safely uses useLocation with fallback
-function useSafeLocation() {
-  try {
-    return useLocation();
-  } catch {
-    // Fallback when not in router context
-    return { pathname: '/' };
-  }
-}
-
-export function Navbar({ cartItemCount = 0, onCartClick }: NavbarProps) {
+export function Navbar({ cartItemCount = 0, onCartClick, currentPath = '/' }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const location = useSafeLocation();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
+const userData = localStorage.getItem("user");
+const user = userData ? JSON.parse(userData) : null;
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Collections', path: '/collections' },
@@ -31,9 +23,9 @@ export function Navbar({ cartItemCount = 0, onCartClick }: NavbarProps) {
 
   const isActive = (path: string) => {
     if (path === '/') {
-      return location.pathname === '/';
+      return currentPath === '/';
     }
-    return location.pathname.startsWith(path);
+    return currentPath.startsWith(path);
   };
 
   return (
@@ -46,18 +38,18 @@ export function Navbar({ cartItemCount = 0, onCartClick }: NavbarProps) {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-5">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
+          <a href="/" className="flex items-center gap-2">
             <span className="text-2xl font-serif tracking-tight text-foreground">
               Prime Picks
             </span>
-          </Link>
+          </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
-              <Link
+              <a
                 key={link.path}
-                to={link.path}
+                href={link.path}
                 className={`relative text-[15px] tracking-wide transition-colors duration-300 ${
                   isActive(link.path)
                     ? 'text-foreground'
@@ -72,14 +64,49 @@ export function Navbar({ cartItemCount = 0, onCartClick }: NavbarProps) {
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
-              </Link>
+              </a>
             ))}
           </div>
 
-          {/* Cart & Mobile Menu */}
+          {/* Cart, Account & Mobile Menu */}
           <div className="flex items-center gap-4">
+            {/* Sign In Link - Desktop */}
+            {user ? (
+  <div className="relative hidden md:flex">
+    <button
+      onClick={() => window.location.href = "/profile"}
+      className="flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground"
+    >
+      <User className="w-4 h-4" />
+      <span>{user.name}</span>
+    </button>
+
+    {dropdownOpen && (
+      <div className="absolute right-0 mt-2 w-40 bg-white border shadow-md rounded-md z-50">
+        <button
+          onClick={() => {
+            localStorage.removeItem("user");
+            window.location.href = "/";
+          }}
+          className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+        >
+          Logout
+        </button>
+      </div>
+    )}
+  </div>
+) : (
+  <a
+    href="/auth"
+    className="hidden md:flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground"
+  >
+    <User className="w-4 h-4" />
+    <span>Sign In</span>
+  </a>
+)}
+            {/* Cart Icon */}
             <button
-              onClick={onCartClick}
+              onClick={() => window.location.href = "/cart"}
               className="relative p-2 hover:bg-secondary/50 rounded-full transition-colors duration-300"
               aria-label="Shopping cart"
             >
@@ -123,9 +150,9 @@ export function Navbar({ cartItemCount = 0, onCartClick }: NavbarProps) {
           >
             <div className="px-6 py-6 flex flex-col gap-4">
               {navLinks.map((link) => (
-                <Link
+                <a
                   key={link.path}
-                  to={link.path}
+                  href={link.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`text-lg transition-colors duration-300 ${
                     isActive(link.path)
@@ -134,8 +161,28 @@ export function Navbar({ cartItemCount = 0, onCartClick }: NavbarProps) {
                   }`}
                 >
                   {link.name}
-                </Link>
+                </a>
               ))}
+              {user ? (
+  <button
+    onClick={() => {
+      localStorage.removeItem("user");
+      window.location.href = "/";
+    }}
+    className="flex items-center gap-2 text-lg text-foreground/70 hover:text-foreground transition-colors duration-300 pt-4 border-t border-border"
+  >
+    <User className="w-5 h-5" />
+    <span>Logout</span>
+  </button>
+) : (
+  <a
+    href="/auth"
+    className="flex items-center gap-2 text-lg text-foreground/70 hover:text-foreground transition-colors duration-300 pt-4 border-t border-border"
+  >
+    <User className="w-5 h-5" />
+    <span>Sign In</span>
+  </a>
+)}
             </div>
           </motion.div>
         )}

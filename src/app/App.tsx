@@ -1,4 +1,4 @@
-import { RouterProvider } from 'react-router';
+import { RouterProvider } from 'react-router-dom';
 import { createRouter } from './routes';
 import { useMemo } from 'react';
 
