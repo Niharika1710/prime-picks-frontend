@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function CartPage() {
   const [cart, setCart] = useState<any[]>([]);
-
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
+//const user = JSON.parse(localStorage.getItem("user") || "{}");
  useEffect(() => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   console.log("USER:", user); // 👈 CHECK THIS
 
   if (!user.email) return;
 
-  fetch(`http://localhost:8081/api/cart/${user.email}`)
+  fetch(`${API_BASE_URL}/api/cart/${user.email}`)
     .then(res => res.json())
     .then(data => {
       console.log("CART DATA:", data); // 👈 CHECK THIS
@@ -35,7 +36,7 @@ export default function CartPage() {
 
           <button
             onClick={async () => {
-              await fetch(`http://localhost:8081/api/cart/${item.id}`, {
+              await fetch(`${API_BASE_URL}/api/cart/${item.id}`, {
                 method: "DELETE"
               });
 
