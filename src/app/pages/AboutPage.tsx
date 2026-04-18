@@ -36,12 +36,12 @@ export function AboutPage() {
     <div className="min-h-screen bg-background pt-24 pb-24">
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[400px] w-full overflow-hidden mb-24">
+      <section className="relative h-[90vh] min-h-[400px] w-full overflow-hidden mb-24">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1762605135012-56a59a059e60"
             alt="About Prime Picks"
-            className="w-full h-full object-cover"
+            className="w-full h-[170vh] object-cover"
           />
           <div className="absolute inset-0 bg-black/40" />
         </div>
@@ -69,15 +69,19 @@ export function AboutPage() {
         <motion.section className="mb-32">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl font-serif mb-6">Our Story</h2>
+              <h2 className="text-6xl font-serif mb-6">Our Story</h2>
               <p className="text-muted-foreground">
-                Founded in 2011, Prime Picks was born from a vision to make luxury fashion accessible worldwide.
+                Founded in 2011, Prime Picks was born from a simple vision: to make luxury fashion accessible to discerning individuals worldwide. What started as a small boutique in New York has grown into a global destination for curated high-end fashion.
+
+We believe that true luxury is not just about the price tag—it's about craftsmanship, attention to detail, and timeless design. Each piece in our collection is carefully selected to meet our exacting standards of quality and style.
+
+Today, we partner with over 50 prestigious brands from around the world, serving customers in more than 30 countries. Our commitment to excellence remains unchanged, as we continue to curate collections that inspire and delight.
               </p>
             </div>
 
             <img
-              src="https://images.unsplash.com/photo-1622018168940"
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1622018168940-1d95f59ca85a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw1fHxsdXh1cnklMjBmYXNoaW9uJTIwbW9kZWwlMjBtaW5pbWFsaXN0JTIwYmVpZ2V8ZW58MXx8fHwxNzc1NjU3ODkxfDA&ixlib=rb-4.1.0&q=80&w=1080"
+              className="w-full h-[60vh] object-cover"
             />
           </div>
         </motion.section>

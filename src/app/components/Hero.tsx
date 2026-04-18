@@ -9,7 +9,7 @@ export function Hero() {
         <img
           src="https://images.unsplash.com/photo-1762605135012-56a59a059e60?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBmYXNoaW9uJTIwbW9kZWwlMjBtaW5pbWFsaXN0JTIwYmVpZ2V8ZW58MXx8fHwxNzc1NjU3ODkxfDA&ixlib=rb-4.1.0&q=80&w=1080"
           alt="Luxury fashion"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-[150vh] object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
       </div>
