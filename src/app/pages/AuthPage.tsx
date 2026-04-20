@@ -42,6 +42,16 @@ export function AuthPage() {
       })
     });
 
+    console.log("Response status:", response.status);
+
+    // ✅ VERY IMPORTANT CHECK
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Backend error:", errorText);
+      setMessage(errorText || "Login failed");
+      return;
+    }
+
     const data = await response.json();
 
     console.log("Data:", data);
@@ -56,7 +66,7 @@ export function AuthPage() {
 
     // ✅ redirect
     window.location.href = "/";
-    
+
   } catch (error) {
     console.error("ERROR:", error);
     setMessage("Login failed");
