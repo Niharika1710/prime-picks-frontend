@@ -30,14 +30,15 @@ export function ProductCard({ product, onAddToCart, index = 0 }: ProductCardProp
       transition={{ duration: 0.5, delay: index * 0.1 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group cursor-pointer"
+      className="group cursor-pointer shadow-sm hover:shadow-lg transition"
     >
       {/* Product Image */}
-      <div className="relative aspect-[3/4] mb-4 overflow-hidden bg-secondary">
+      <div className="relative h-[400px] mb-4 overflow-hidden bg-secondary">
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          
         />
 
         {/* Add to Cart Button - appears on hover */}

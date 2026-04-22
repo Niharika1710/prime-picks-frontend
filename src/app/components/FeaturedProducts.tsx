@@ -1,6 +1,12 @@
 import { motion } from 'motion/react';
 import { ProductCard, Product } from './ProductCard';
 import { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "./carousel.css";
+
+import { Navigation, Autoplay } from "swiper/modules";
 
 interface FeaturedProductsProps {
   onAddToCart: (product: Product) => void;
@@ -64,17 +70,35 @@ export function FeaturedProducts({ onAddToCart }: FeaturedProductsProps) {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-          {products.map((product, index) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={onAddToCart}
-              index={index}
-            />
-          ))}
-        </div>
-
+        <Swiper
+  modules={[Navigation, Autoplay]}
+  spaceBetween={30}
+  slidesPerView={1}
+  navigation
+  loop={true}
+  autoplay={{
+    delay: 2500,
+    disableOnInteraction: false,
+  }}
+  centeredSlides={true}
+  breakpoints={{
+    640: { slidesPerView: 1 },
+    768: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 }
+  }}
+>
+  {products.map((product, index) => (
+    <SwiperSlide key={product.id}>
+      <div className="max-w-sm mx-auto">
+        <ProductCard
+          product={product}
+          onAddToCart={onAddToCart}
+          index={index}
+        />
+      </div>
+    </SwiperSlide>
+  ))}
+</Swiper>
       </div>
     </section>
   );
