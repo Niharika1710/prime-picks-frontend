@@ -14,30 +14,43 @@ interface FeaturedProductsProps {
 
 const API_BASE_URL = 'https://prime-picks-backend.onrender.com';
 
+
+
+
+
 export function FeaturedProducts({ onAddToCart }: FeaturedProductsProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
 
-        const response = await fetch(`${API_BASE_URL}/api/products/featured`);
-        const data = await response.json();
+      const response = await fetch(`${API_BASE_URL}/api/products/featured`);
+      const data = await response.json();
 
-        // IMPORTANT: your backend returns { success, data }
+      console.log("API DATA:", data);
+
+      // ✅ SAFE FIX (handles both formats)
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else if (data.data) {
         setProducts(data.data);
-
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
+      } else {
+        setProducts([]);
       }
-    };
 
-    fetchProducts();
-  }, []);
+    } catch (error) {
+      console.error("Error:", error);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, []);
 
   if (loading) {
     return (
@@ -50,6 +63,10 @@ export function FeaturedProducts({ onAddToCart }: FeaturedProductsProps) {
       </section>
     );
   }
+
+  if (!products || products.length === 0) {
+  return <p className="text-center mt-10">Loading products...</p>;
+}
 
   return (
     <section id="collections" className="py-24 bg-background">
@@ -87,7 +104,7 @@ export function FeaturedProducts({ onAddToCart }: FeaturedProductsProps) {
     1024: { slidesPerView: 3 }
   }}
 >
-  {products.map((product, index) => (
+  {(products || []).map((product, index) => (
     <SwiperSlide key={product.id}>
       <div className="max-w-sm mx-auto">
         <ProductCard
